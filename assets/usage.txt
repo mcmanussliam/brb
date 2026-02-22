@@ -1,0 +1,8 @@
+brb [--channel <channel-id> ...] <command> [args...]
+  brb init
+  brb channels [list]
+  brb channels validate
+  brb channels test <channel-id>
+  brb config [path]
+  brb --help
+  brb --version

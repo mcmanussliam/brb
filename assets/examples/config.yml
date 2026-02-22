@@ -1,0 +1,53 @@
+version: 1
+
+# channel ids used when you run `brb <command>` without `--channel`.
+# every ID here must exist under `channels`.
+default_channels:
+  - desktop
+
+# all channels keyed by your own channel id
+channels:
+  # minimal local notification channel.
+  # works without any extra fields.
+  desktop:
+    type: desktop
+
+  # generic webhook example
+  ci-webhook:
+    type: webhook # channel type: desktop | webhook | custom
+
+    # target URL for webhook delivery.
+    # `${env:VAR}` reads from environment variables at runtime.
+    url: ${env:BRB_WEBHOOK_URL}
+
+    method: POST # optional HTTP method (defaults to POST if omitted).
+
+    # optional request headers.
+    headers:
+      Authorization: Bearer ${env:BRB_WEBHOOK_TOKEN}
+      Content-Type: application/json
+
+  # custom executable channel example.
+  write:
+    type: custom
+
+    # executable to be ran on notify
+    # relative path (e.g. `./scripts/notifier.sh`): relative to where `brb` is run
+    # absolute path: used directly
+    exec: ./abs/path/to/examples/write-to-logs.sh
+
+    args: [] # optional cli args passed to `exec`.
+
+    # optional environment overrides for the child process.
+    env:
+      BRB_CUSTOM_LOG_FILE: /tmp/brb-custom-channel.log
+
+  # real world examples
+  ntfy:
+    type: webhook
+    url: https://ntfy.sh/yourlinkgohere # remember ntfy webhooks are not password protected, make sure the url is hard enough to guess
+    method: POST
+    headers:
+      Title: 'brb: completed'
+      Tags: crab
+      Priority: default
