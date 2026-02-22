@@ -1,0 +1,22 @@
+version: 1
+default_channels: [desktop]
+
+channels:
+  desktop:
+    type: desktop
+
+  # example webhook channel:
+  # ci-webhook:
+  #   type: webhook
+  #   url: https://example.com/hook
+  #   method: POST
+  #   headers:
+  #     Authorization: Bearer ${env:BRB_WEBHOOK_TOKEN}
+
+  # example custom channel:
+  # team-slack:
+  #   type: custom
+  #   exec: brb-channel-slack
+  #   args: ["--room", "build-alerts"]
+  #   env:
+  #     SLACK_WEBHOOK: ${env:SLACK_WEBHOOK}
