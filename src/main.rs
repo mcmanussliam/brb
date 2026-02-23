@@ -65,7 +65,8 @@ fn handle_channels(action: ChannelsAction) -> Result<i32, AppError> {
 
     match action {
         ChannelsAction::List => {
-            println!("Config: {}", loaded.path.display());
+            println!("Config: {}\n", loaded.path.display());
+
             println!("Channels:");
             for (channel_id, channel) in &loaded.config.channels {
                 let default_label = if loaded.config.default_channels.contains(channel_id) {
@@ -74,16 +75,18 @@ fn handle_channels(action: ChannelsAction) -> Result<i32, AppError> {
                     ""
                 };
                 println!(
-                    "- {} [{}]{}",
+                    "  {} [{}]{}",
                     channel_id,
                     channel.type_name(),
                     default_label
                 );
             }
+
+            println!();
             Ok(0)
         }
         ChannelsAction::Validate => {
-            println!("brb: config is valid ({})", loaded.path.display());
+            println!("brb: config is valid ({})\n", loaded.path.display());
             Ok(0)
         }
         ChannelsAction::Test { channel_id } => {
@@ -99,14 +102,14 @@ fn handle_channels(action: ChannelsAction) -> Result<i32, AppError> {
             let result = &results[0];
 
             if result.success {
-                println!("brb: test notification delivered on `{channel_id}`");
+                println!("brb: test notification delivered on `{channel_id}`\n");
                 Ok(0)
             } else {
                 let reason = result
                     .error
                     .as_deref()
                     .unwrap_or("unknown notification error");
-                eprintln!("brb: test notification failed on `{channel_id}`: {reason}");
+                eprintln!("brb: test notification failed on `{channel_id}`: {reason}\n");
                 Ok(1)
             }
         }
