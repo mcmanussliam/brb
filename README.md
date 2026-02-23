@@ -1,15 +1,14 @@
 <p align="center">
-  <img src="assets/demo.gif" alt="brb demo" />
+  <img src="assets/readme/demo.gif" alt="brb demo" />
 </p>
 
 # `brb`
 
-Run a command. Walk away. Get notified when it finishes. `brb` wraps your
-command, waits for it to complete, then sends a completion event to your
+Tired of babysitting commands for hours? `brb` is a wrapper for commands, it
+waits for a given command to complete, then sends a completion event to your
 configured channels.
 
-Best used for long builds, test suites, CI-like local scripts, data jobs, and
-deploy commands.
+Best used for long builds, test suites, data jobs, and deploy commands.
 
 ## Setup
 
@@ -32,7 +31,7 @@ brb config path
 brb cargo test
 
 # override channels for one run
-brb --channel desktop --channel ci-webhook pnpm test
+brb --channel phone pnpm test
 ```
 
 ## Usage
@@ -57,14 +56,14 @@ brb --channel desktop -- --version
 
 ## Cookbook
 
-| Goal | Command |
-|---|---|
-| Run with defaults | `brb cargo test` |
-| Use one specific channel | `brb --channel desktop cargo test` |
-| Use multiple channels | `brb --channel desktop --channel ci-webhook pnpm test` |
-| Validate config | `brb channels validate` |
-| Send test notification | `brb channels test desktop` |
-| Print config path | `brb config path` |
+| Goal                      | Command                                               |
+|---------------------------|-------------------------------------------------------|
+| Run with defaults         | `brb cargo test`                                      |
+| Use one specific channel  | `brb --channel desktop cargo test`                    |
+| Use multiple channels     | `brb --channel mobile --channel ci-webhook pnpm test` |
+| Validate config           | `brb channels validate`                               |
+| Send test notification    | `brb channels test desktop`                           |
+| Print config path         | `brb config path`                                     |
 
 ## Config
 
@@ -72,22 +71,22 @@ A fully commented example is included at `assets/examples/config.yml`.
 
 ### Channel Types
 
-| Type | Purpose | Required Fields | Optional Fields |
-|---|---|---|---|
-| `desktop` | Local desktop notification | `type` | none |
-| `webhook` | HTTP JSON event delivery | `type`, `url` | `method` (default `POST`), `headers` |
-| `custom` | Execute your own notifier process | `type`, `exec` | `args`, `env` |
+| Type       | Purpose                           | Required Fields | Optional Fields                         |
+|------------|-----------------------------------|-----------------|-----------------------------------------|
+| `desktop`  | Local desktop notification        | `type`          | none                                    |
+| `webhook`  | HTTP JSON event delivery          | `type`, `url`   | `method` (default `POST`), `headers`    |
+| `custom`   | Execute your own notifier process | `type`, `exec`  | `args`, `env`                           |
 
 ### Custom
 
-`custom` channels receive one JSON event on stdin.
+`custom` channels are an executable that receive one JSON event on stdin.
 
 `exec` supports:
 
 - Relative path: resolved from the working directory where `brb` is launched.
 - Absolute path: used directly.
 
-Payload shape:
+The JSON the executable will receive is shaped like so:
 
 ```json
 {

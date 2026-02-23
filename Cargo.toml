@@ -2,7 +2,7 @@
 name = "brb-cli"
 version = "1.0.0"
 edition = "2024"
-description = "Run a command. Walk away. Get notified when it finishes."
+description = "Tired of babysitting commands for hours? Brb will notify you when that commands done."
 license = "MIT"
 repository = "https://github.com/mcmanussliam/brb"
 readme = "README.md"
